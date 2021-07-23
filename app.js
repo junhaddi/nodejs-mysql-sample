@@ -6,12 +6,11 @@ const logger = require('morgan');
 
 // MySQL 연결
 const db_config = require(__dirname + '/config/database.js');
-const conn = db_config.init();
-db_config.connect(conn);
+const pool = db_config.init();
 
 const indexRouter = require('./routes/index');
-const listRouter = require('./routes/list')(conn);
-const writeRouter = require('./routes/write')(conn);
+const listRouter = require('./routes/list')(pool);
+const writeRouter = require('./routes/write')(pool);
 
 const app = express();
 
