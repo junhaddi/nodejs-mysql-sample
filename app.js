@@ -4,13 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-// MySQL 연결
-const db_config = require(__dirname + '/config/database.js');
-const pool = db_config.init();
-
 const indexRouter = require('./routes/index');
-const listRouter = require('./routes/list')(pool);
-const writeRouter = require('./routes/write')(pool);
+const listRouter = require('./routes/list');
+const writeRouter = require('./routes/write');
 
 const app = express();
 

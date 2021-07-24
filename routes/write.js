@@ -1,30 +1,27 @@
 const router = require('express').Router();
+const getConnection = require('../config/db');
 
-module.exports = (pool) => {
-  router.get('/write', (req, res) => {
-    res.render('write.ejs');
-  });
+router.get('/write', (req, res) => {
+  res.render('write.ejs');
+});
 
-  router.post('/write', (req, res) => {
-    const body = req.body;
-    console.log(body);
+router.post('/write', (req, res) => {
+  const body = req.body;
 
-    pool.getConnection((err, conn) => {
+  getConnection((conn) => {
+    const sql = 'INSERT INTO BOARD VALUES(?, ?, ?, NOW())';
+    var params = [req.body.id, body.title, body.content];
+
+    conn.query(sql, params, (err) => {
       if (err) {
-        throw err;
+        console.log('query is not excuted. insert fail...\n' + err);
       } else {
-        const sql = 'INSERT INTO BOARD VALUES(?, ?, ?, NOW())';
-        var params = [body.id, body.title, body.content];
-        conn.query(sql, params, (err) => {
-          if (err) {
-            console.log('query is not excuted. insert fail...\n' + err);
-          } else {
-            res.redirect('/lists');
-          }
-        });
+        res.redirect('/lists');
       }
     });
-  });
 
-  return router;
-};
+    conn.release();
+  });
+});
+
+module.exports = router;
