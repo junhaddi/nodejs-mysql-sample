@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-express
+  labels:
+    app: hello-express
+  namespace: paas-1a64d71a-951e-4a7c-a5bf-c384320f50cb-caas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-express
+  template:
+    metadata:
+      labels:
+        app: hello-express
+    spec:
+      containers:
+        - name: hello-express
+          image: junhaddi/hello-express:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+---
+# 앱 노출을 위해 서비스 이용하기
+# https://kubernetes.io/ko/docs/tutorials/kubernetes-basics/expose/expose-intro/
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-express
+  labels:
+    app: hello-express
+  namespace: paas-1a64d71a-951e-4a7c-a5bf-c384320f50cb-caas
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 31234
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: hello-express

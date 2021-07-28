@@ -1,9 +1,9 @@
 {
-  "host": "172.30.1.47",
-  "port": "3306",
-  "user": "root",
-  "password": "1qaz@wsx",
-  "database": "db_test",
+  "host": "192.168.0.108",
+  "port": "13306",
+  "user": "n4dewrw87jh8w590",
+  "password": "02aj83h33q9p2489",
+  "database": "0t27ku8qmbgnzs0doht6",
   "waitForConnections": true,
   "connectionLimit": 10,
   "queueLimit": 0
